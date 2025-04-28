@@ -20,7 +20,7 @@ function clean_input($data) {
 if (isset($_POST['add-article'])) {
     // Nettoyage des entrées
     $title = clean_input(filter_input(INPUT_POST, 'title', FILTER_DEFAULT));
-    $slug = strtolower(str_replace(' ', '-', $title)); // Mise à jour du slug à partir du titre
+    $slug = strtolower(str_replace(' ', '-', $title)); // -Mise à jour du slug à partir du titre
     $introduction = clean_input(filter_input(INPUT_POST, 'introduction', FILTER_DEFAULT));
     $content = clean_input(filter_input(INPUT_POST, 'content', FILTER_DEFAULT));
 
