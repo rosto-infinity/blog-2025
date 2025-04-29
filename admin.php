@@ -26,7 +26,7 @@ function createSlug($title) {
   // -Remplace les tirets multiples par un seul tiret
   $slug = preg_replace('/-+/', '-', $slug);
   
-  // Supprime les tirets en début et fin de chaîne
+  // -Supprime les tirets en début et fin de chaîne
   $slug = trim($slug, '-');
   
   return $slug;
