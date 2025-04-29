@@ -23,7 +23,7 @@ function createSlug($title) {
   // -Supprime les caractères non alphanumériques et les tirets
   $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
   
-  // Remplace les tirets multiples par un seul tiret
+  // -Remplace les tirets multiples par un seul tiret
   $slug = preg_replace('/-+/', '-', $slug);
   
   // Supprime les tirets en début et fin de chaîne
