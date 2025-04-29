@@ -14,7 +14,7 @@ function clean_input($data)
   return htmlspecialchars(stripslashes(trim($data)));
 }
 function createSlug($title) {
-  // Remplace les caractères accentués par leur équivalent sans accent
+  // -Remplace les caractères accentués par leur équivalent sans accent
   $title = removeAccents($title);
   
   // Remplace les espaces par des tirets
