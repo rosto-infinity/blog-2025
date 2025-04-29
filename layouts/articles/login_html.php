@@ -6,7 +6,9 @@
     </div>
     <?php
             if (!empty($errors)) {
-                echo "<div style=\"color:white; text-align: center; background-color:#ff6c6c;padding:2px 7px; margin-bottom:10px; font-size:23px;\">$errors</div>";
+                echo "<div style=\"color:white; text-align: center; background-color:#ff6c6c;padding:2px 7px; margin-bottom:10px; font-size:23px;\"> "
+                 .reset($errors).
+                  "</div>";
             }
             ?>
 

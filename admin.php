@@ -2,61 +2,82 @@
 session_start();
 require_once "database/database.php";
 
-if ($_SESSION['role'] != 'admin') {
-    header("Location: index.php");
-    exit();
+if($_SESSION['role'] != 'admin')
+{
+  header('Location: index.php');
+  exit();
+}
+//-Nettoyage des entrées
+
+function clean_input($data)
+{
+  return htmlspecialchars(stripslashes(trim($data)));
+}
+function createSlug($title) {
+  // Remplace les caractères accentués par leur équivalent sans accent
+  $title = removeAccents($title);
+  
+  // Remplace les espaces par des tirets
+  $slug = strtolower(str_replace(' ', '-', $title));
+  
+  // Supprime les caractères non alphanumériques et les tirets
+  $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
+  
+  // Remplace les tirets multiples par un seul tiret
+  $slug = preg_replace('/-+/', '-', $slug);
+  
+  // Supprime les tirets en début et fin de chaîne
+  $slug = trim($slug, '-');
+  
+  return $slug;
+}
+function removeAccents($string) {
+  $accents = [
+      'à' => 'a', 'á' => 'a', 'â' => 'a', 'ã' => 'a', 'ä' => 'a', 'å' => 'a',
+      'ç' => 'c', 'è' => 'e', 'é' => 'e', 'ê' => 'e', 'ë' => 'e',
+      'ì' => 'i', 'í' => 'i', 'î' => 'i', 'ï' => 'i',
+      'ñ' => 'n',
+      'ò' => 'o', 'ó' => 'o', 'ô' => 'o', 'õ' => 'o', 'ö' => 'o', 'ø' => 'o',
+      'ù' => 'u', 'ú' => 'u', 'û' => 'u', 'ü' => 'u',
+      'ý' => 'y', 'ÿ' => 'y',
+      'À' => 'A', 'Á' => 'A', 'Â' => 'A', 'Ã' => 'A', 'Ä' => 'A', 'Å' => 'A',
+      'Ç' => 'C', 'È' => 'E', 'É' => 'E', 'Ê' => 'E', 'Ë' => 'E',
+      'Ì' => 'I', 'Í' => 'I', 'Î' => 'I', 'Ï' => 'I',
+      'Ñ' => 'N',
+      'Ò' => 'O', 'Ó' => 'O', 'Ô' => 'O', 'Õ' => 'O', 'Ö' => 'O', 'Ø' => 'O',
+      'Ù' => 'U', 'Ú' => 'U', 'Û' => 'U', 'Ü' => 'U',
+      'Ý' => 'Y'
+  ];
+  return strtr($string, $accents);
 }
 
-/**
- * Ajouter un nouvel article
- */
+// Récupere les données des entrées de l'user
 
-// Vérification et nettoyage des entrées
-function clean_input($data) {
-    return htmlspecialchars(stripslashes(trim($data)));
-}
+if(isset($_POST['add-article']))
+{
+   $title =clean_input($_POST['title']);
+   $slug = createSlug($title);
+  //  var_dump($slug);
+  //  die;
+   $introduction =clean_input($_POST['introduction']);
+   $content =clean_input($_POST['content']);
+    
+   // Validation des données
+     if (empty($title) || empty($slug) || empty($introduction) || empty($content)) {
+      $error = "Veuillez remplir tous les champs du formulaire !";
+    } 
+      // Insertion du nouvel article dans la base de données
+      $query = $pdo->prepare('INSERT INTO articles (title, slug, introduction, content, created_at) VALUES (:title, :slug, :introduction, :content, NOW())');
+      $query->execute(compact('title', 'slug', 'introduction', 'content'));
+    
+  }
 
-// Récupération des données du formulaire
-if (isset($_POST['add-article'])) {
-    // Nettoyage des entrées
-    $title = clean_input(filter_input(INPUT_POST, 'title', FILTER_DEFAULT));
-    $slug = strtolower(str_replace(' ', '-', $title)); // -Mise à jour du slug à partir du titre
-    $introduction = clean_input(filter_input(INPUT_POST, 'introduction', FILTER_DEFAULT));
-    $content = clean_input(filter_input(INPUT_POST, 'content', FILTER_DEFAULT));
+//Recuperation de tous les articles
 
-    // Validation des données
-    if (empty($title) || empty($slug) || empty($introduction) || empty($content)) {
-        $error = "Veuillez remplir tous les champs du formulaire !";
-    } else {
-        // Vérification de l'unicité du slug
-        $checkSlugQuery = $pdo->prepare('SELECT COUNT(*) FROM articles WHERE slug = ?');
-        $checkSlugQuery->execute([$slug]);
-        $slugExists = $checkSlugQuery->fetchColumn();
-
-        if ($slugExists > 0) {
-            // Générer un nouveau slug unique
-            $baseSlug = $slug;
-            $i = 1;
-            while ($slugExists > 0) {
-                $slug = $baseSlug . '-' . $i;
-                $checkSlugQuery->execute([$slug]);
-                $slugExists = $checkSlugQuery->fetchColumn();
-                $i++;
-            }
-        }
-
-        // Insertion du nouvel article dans la base de données
-        $query = $pdo->prepare('INSERT INTO articles (title, slug, introduction, content, created_at) VALUES (?, ?, ?, ?, NOW())');
-        $query->execute([$title, $slug, $introduction, $content]);
-    }
-}
-
-// Récupération de tous les articles
-$query = "SELECT * FROM articles ORDER BY created_at DESC";
-$resultats = $pdo->prepare($query);
+$query ="SELECT * FROM articles ORDER BY created_at DESC ";
+$resultats =$pdo->prepare($query);
 $resultats->execute();
-$allArticles = $resultats->fetchAll();
-// 1--On affiche le titre autre
+$allArticles =$resultats->fetchAll();
 
 $pageTitle ='Page Admin'; 
 
