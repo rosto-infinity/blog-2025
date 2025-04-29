@@ -72,7 +72,7 @@ if(isset($_POST['add-article']))
     
   }
 
-//Recuperation de tous les articles
+// -Recuperation de tous les articles
 
 $query ="SELECT * FROM articles ORDER BY created_at DESC ";
 $resultats =$pdo->prepare($query);
