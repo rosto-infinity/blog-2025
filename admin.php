@@ -51,7 +51,7 @@ function removeAccents($string) {
   return strtr($string, $accents);
 }
 
-// Récupere les données des entrées de l'user
+// -Récupere les données des entrées de l'user
 
 if(isset($_POST['add-article']))
 {
