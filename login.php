@@ -8,7 +8,7 @@ if (isset($_POST['login'])) {
   $errors =[]; 
   if (!empty($_POST['email']) && !empty($_POST['password'])) {
 
-      // Vérification des informations de connexion
+      // -Vérification des informations de connexion
       $query = "SELECT * FROM users
       WHERE (email = :email OR username =:email)";
       $query = $pdo->prepare($query);
