@@ -66,7 +66,7 @@ if(isset($_POST['add-article']))
      if (empty($title) || empty($slug) || empty($introduction) || empty($content)) {
       $error = "Veuillez remplir tous les champs du formulaire !";
     } 
-      // Insertion du nouvel article dans la base de données
+      // --Insertion du nouvel article dans la base de données
       $query = $pdo->prepare('INSERT INTO articles (title, slug, introduction, content, created_at) VALUES (:title, :slug, :introduction, :content, NOW())');
       $query->execute(compact('title', 'slug', 'introduction', 'content'));
     
