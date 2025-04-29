@@ -17,7 +17,7 @@ function createSlug($title) {
   // -Remplace les caractères accentués par leur équivalent sans accent
   $title = removeAccents($title);
   
-  // Remplace les espaces par des tirets
+  // -Remplace les espaces par des tirets
   $slug = strtolower(str_replace(' ', '-', $title));
   
   // Supprime les caractères non alphanumériques et les tirets
