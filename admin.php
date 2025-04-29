@@ -20,7 +20,7 @@ function createSlug($title) {
   // -Remplace les espaces par des tirets
   $slug = strtolower(str_replace(' ', '-', $title));
   
-  // Supprime les caractères non alphanumériques et les tirets
+  // -Supprime les caractères non alphanumériques et les tirets
   $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
   
   // Remplace les tirets multiples par un seul tiret
