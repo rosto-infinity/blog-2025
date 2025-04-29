@@ -22,7 +22,7 @@ if (isset($_POST['login'])) {
       // echo"<pre>";
       // die();
       
-      // Si les informations de connexion sont correctes, on crée une session et on redirige vers la page d'accueil de l'admin ou l'utilisateur
+      // --Si les informations de connexion sont correctes, on crée une session et on redirige vers la page d'accueil de l'admin ou l'utilisateur
 
       if ($user && password_verify($_POST['password'], $user['password'])) {
           $_SESSION['role'] = $user['role'];
