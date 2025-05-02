@@ -19,19 +19,37 @@ if (session_status() == PHP_SESSION_NONE) {
   <header>
     <div class="logo">
       <h2>
-        <a href="http://blogphp-2025.test">Blog-2025
+        <a href="http://blog-2025.test">Blog-2025
         </a>
       </h2>
     </div>
 
     <nav>
       <ul>
-        <?php if (isset($_SESSION['auth'])) : ?>
-        <li><a id="gcu" href="logout.php">Se deconnecter</a></li>
-        <?php else : ?>
+      <?php 
+switch (true) {
+    case isset($_SESSION['auth']) && ($_SESSION['role'] == 'admin'):
+        ?>
+        <li><a id="gcu" href="logout.php">Se déconnecter</a></li>
+        <li><a id="gcu" href="admin.php">Dashboard Admin</a></li>
+        <?php 
+        break;
+
+    case isset($_SESSION['auth']):
+        ?>
+         <li><a id="gcu" href="logout.php">Se déconnecter</a></li>
+        <?php 
+        break;
+
+    default:
+        ?>
         <li><a id="lien-header" href="register.php">S'inscrire</a></li>
         <li><a href="login.php">Se connecter</a></li>
-        <?php endif; ?>
+        <?php 
+        break;
+}
+?>
+
       </ul>
     </nav>
 
