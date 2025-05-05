@@ -13,9 +13,10 @@ $sql = "SELECT * FROM articles WHERE id =:articles_id";
 $query = $pdo->prepare($sql);
 $query->execute(compact('articles_id'));
 $article = $query->fetch();
-// echo "<pre>";
-// var_dump($articles);
-// echo "</pre>";
+
+echo "<pre>";
+ var_dump($articles);
+echo "</pre>";
 
 
 

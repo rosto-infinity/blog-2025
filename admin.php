@@ -14,13 +14,13 @@ function clean_input($data)
   return htmlspecialchars(stripslashes(trim($data)));
 }
 function createSlug($title) {
-  // -Remplace les caractères accentués par leur équivalent sans accent
+  // ----Remplace les caractères accentués par leur équivalent sans accent
   $title = removeAccents($title);
   
-  // -Remplace les espaces par des tirets
+  // --Remplace les espaces par des tirets
   $slug = strtolower(str_replace(' ', '-', $title));
   
-  // -Supprime les caractères non alphanumériques et les tirets
+  // -S---upprime les caractères non alphanumériques et les tirets
   $slug = preg_replace('/[^a-z0-9-]/', '', $slug);
   
   // -Remplace les tirets multiples par un seul tiret
